@@ -13,14 +13,29 @@ jobs:
         name: Checkout repository
         with:
           fetch-depth: 0
+
+      - name: Check for changes outside the templates directory
+        id: check_changes
+        run: |
+          if git diff --quiet HEAD^ HEAD -- . ':(exclude)templates/'; then
+            echo "build_image=false" >> $GITHUB_ENV
+          else
+            echo "build_image=true" >> $GITHUB_ENV
+          fi
+                    
       - name: Set up Docker Buildx
+        if: env.build_image == 'true'
         uses: docker/setup-buildx-action@v3
+        
       - name: Log in to Docker Hub
+        if: env.build_image == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          
       - name: Extract metadata for Docker
+        if: env.build_image == 'true'
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -28,7 +43,9 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha
+            
       - name: Build and push Docker image
+        if: env.build_image == 'true'
         id: push
         uses: docker/build-push-action@v5
         with:
@@ -36,6 +53,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          
       - uses: rickstaa/action-create-tag@v1
         with:
           tag: "latest"
