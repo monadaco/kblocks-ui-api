@@ -1,7 +1,7 @@
 apiVersion: acme.com/v1
 kind: Workload
 metadata:
-  name: kblocksui-server
+  name: api
 route: /kblocks/api(/|$)(.*)
 rewrite: /$2
 image: wingcloudbot/kblocks-ui-api:sha-{{ .Values.revision }}
