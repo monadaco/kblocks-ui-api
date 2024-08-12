@@ -1,11 +1,15 @@
 apiVersion: acme.com/v1
 kind: Workload
 metadata:
-name: workload
-image: wingcloudbot/kblocks-ui-api:sha-{{ .Values.revision }}
-port: 5678
-route: /kblocks-ui-api(/|$)(.*)
+  name: kblocksui-server
+route: /kblockspi(/|$)(.*)
 rewrite: /$2
-replicas: 2
+image: wingcloudbot/kblocks-ui-api:sha-{{ .Values.revision }}
+replicas: 1
+port: 3000
 env:
-ECHO_TEXT: "hello from kblocks-ui-api"
+  PORT: 3000
+  KBLOCKS_GROUP_NAME: acme.com
+  KBLOCKS_NAMESPACE: acme-operators
+  KBLOCKS_CONFIG_MAP_ANNOTATION: kblocks.io/docs
+command: ["pnpm", "run", "dev"]
