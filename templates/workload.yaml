@@ -8,7 +8,7 @@ image: wingcloudbot/kblocks-ui-api:sha-{{ .Values.revision }}
 replicas: 1
 port: 3000
 env:
-  PORT: 3000
+  PORT: "3000"
   KBLOCKS_GROUP_NAME: acme.com
   KBLOCKS_NAMESPACE: acme-operators
   KBLOCKS_CONFIG_MAP_ANNOTATION: kblocks.io/docs
