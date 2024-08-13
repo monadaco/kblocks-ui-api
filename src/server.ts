@@ -22,7 +22,7 @@ kc.loadFromDefault();
 
 const createRoutes = () => {
   app.get(
-    "/kblockspi/crds",
+    "/crds",
     async (req: Request, res: Response): Promise<Response<CRDData[]>> => {
       try {
         if (!process.env.KBLOCKS_CONFIG_MAP_ANNOTATION) {
@@ -69,7 +69,7 @@ const createRoutes = () => {
   );
 
   app.get(
-    "/api/configmaps:name",
+    "/configmaps:name",
     async (req: Request, res: Response): Promise<Response<CRDResult[]>> => {
       const configmapName = req.params.name;
       const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
@@ -93,7 +93,7 @@ const createRoutes = () => {
   );
 
   app.get(
-    "/api/argo-apps",
+    "/argo-apps",
     async (req: Request, res: Response): Promise<Response<CRD[]>> => {
       try {
         const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
