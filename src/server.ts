@@ -99,7 +99,7 @@ const createRoutes = () => {
         const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
         const group = "argoproj.io"; // Argo CD CRDs are under the group 'argoproj.io'
         const version = "v1alpha1"; // Argo CD Application CRDs are usually versioned as 'v1alpha1' or 'v1beta1'
-        const namespace = "default"; // Replace with the namespace where your Argo CD applications are deployed
+        const namespace = "argocd";
         const plural = "applications"; // The plural name of the resource
         console.log("Listing Argo CD applications:");
         const apps = await k8sApi.listNamespacedCustomObject(
